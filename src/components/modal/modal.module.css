@@ -1,0 +1,20 @@
+.modalContainer {
+  width: 720px;
+  background: #1C1C21;
+  box-sizing: border-box;
+  border-radius: 40px;
+  position: relative;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  height: 64px;
+}
+
+.closeModalButton {
+  position: absolute;
+  top: 60px;
+  right: 40px;
+  cursor: pointer;
+}

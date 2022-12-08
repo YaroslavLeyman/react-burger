@@ -1,0 +1,29 @@
+.header {
+  background: #1C1C21;
+}
+
+.headerContent {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.nav {
+  margin-right: auto;
+}
+
+.list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+}
+
+.listBox {
+  display: flex;
+  gap: 8px;
+}
+
+

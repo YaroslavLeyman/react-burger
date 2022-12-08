@@ -1,0 +1,34 @@
+.burgerburgerConstructorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.burgerConstructorItem {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.burgerConstructorItems {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  height: 475px;
+  gap: 16px;
+  overflow-y: scroll;
+}
+
+.burgerConstructorOrder {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.burgerConstructorOrderAll {
+  display: flex;
+  align-items: center;
+}
