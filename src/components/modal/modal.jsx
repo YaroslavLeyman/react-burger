@@ -2,27 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import modalStyles from './modal.module.css';
-import ModalOverlay from '../modalOverlay/modalOverlay';
+import ModalOverlay from '../modal-overlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const Modal = ( { onClose, children, title } ) => {
 
   const reactModals = document.getElementById('react-modals')
 
-  const handlerEscape = (event) => {
+  React.useEffect(() => {
+    const handlerEscape = (event) => {
       if (event.type === "keydown" && event.code === "Escape") {
           onClose();
       }
-  }
+    }
 
-  React.useEffect(() => {
+    document.addEventListener("keydown", handlerEscape);
 
-      document.addEventListener("keydown", handlerEscape);
-
-      return () => {
-          document.removeEventListener("keydown", handlerEscape);
-      }
-
+    return () => {
+        document.removeEventListener("keydown", handlerEscape);
+    }
   });
 
   return ReactDOM.createPortal(

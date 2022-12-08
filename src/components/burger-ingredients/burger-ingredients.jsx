@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import burgerIngredientsStyles from './burgerIngredientsStyles.module.css';
-import IngredientCard from '../ingredientCard/ingredientCard';
-import IngredientDetails from '../ingredientDetails/ingredientDetails';
+import burgerIngredientsStyles from './burger-ingredients.module.css';
+import IngredientCard from '../ingredient-card/ingredient-card';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { ingredientType } from "../../constants/typeCheck";
+import { ingredientType } from "../../constants/type-check";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
