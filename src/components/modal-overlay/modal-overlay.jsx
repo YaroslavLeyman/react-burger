@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import modalOverlayStyles from './modalOverlay.module.css';
+import modalOverlayStyles from './modal-overlay.module.css';
 
 const ModalOverlay = ( { children, onClose } ) => {
   return (

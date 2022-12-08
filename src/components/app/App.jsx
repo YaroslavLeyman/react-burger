@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './app.module.css';
 
-import AppHeader from '../appHeader/appHeader';
-import BurgerIngredients from '../burgerIngredients/burgerIngredients';
-import BurgerConstructor from '../burgerConstructor/burgerConstructor';
+import AppHeader from '../app-header/app-header';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 import { baseUrl } from '../../constants/api';
 
