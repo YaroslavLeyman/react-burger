@@ -1,0 +1,11 @@
+.main {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-bottom: 10px;
+}
+
+.ingredientsSection {
+  max-width: 620px;
+}

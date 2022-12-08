@@ -1,0 +1,23 @@
+.ingredientDetailsContainer {
+  width: 520px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ingredientDetailsItems {
+  gap: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ingredientDetailsItem {
+  text-align: center;
+  flex: 1;
+}
+
+.ingredientDetailsName {
+  text-align: center;
+}
