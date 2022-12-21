@@ -15,8 +15,8 @@
 }
 
 .ingredientsContainer {
-  height: 640px;
-  overflow-y: scroll;
+  height: 600px;
+  overflow-y: auto;
 }
 
 .ingredientsGroupList {

@@ -4,7 +4,7 @@ import modalOverlayStyles from './modal-overlay.module.css';
 
 const ModalOverlay = ( { children, onClose } ) => {
   return (
-    <div className={modalOverlayStyles.overlay} id="overlay" onClick={() => onClose()}>
+    <div className={modalOverlayStyles.overlay} id="overlay" onClick={onClose}>
       {children}
     </div>
   )
