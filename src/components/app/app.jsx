@@ -5,45 +5,32 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 
-import { baseUrl } from '../../constants/api';
+import { getIngredients } from '../../services/burgerConstructorActions';
+import { useDispatch } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const App = () => {
 
-  const [state, setState] = React.useState({
-    ingredientsData: []
-  })
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-
-    const getIngredientsData = () => {
-      fetch(baseUrl)
-        .then((response) => {
-          if(response.ok) {
-            return response.json();
-          }
-          return Promise.reject(`Ошибка ${response.status}`);
-        })
-        .then((responseData) => setState ({ ingredientsData: responseData.data }))
-        .catch((error) => {
-          alert("Ошибка при загрузке данных: " + error)
-        });
-    }
-
-    getIngredientsData();
-
-  }, []);
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
     <>
       <AppHeader />
-      <main className={styles.main}>
-        <section className={styles.ingredientsSection}>
-          <BurgerIngredients ingredients={state.ingredientsData} />
-        </section>
-        <section>
-          <BurgerConstructor ingredients={state.ingredientsData} />
-        </section>
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+          <section className={styles.ingredientsSection}>
+            <BurgerIngredients />
+          </section>
+          <section>
+            <BurgerConstructor />
+          </section>
+        </main>
+      </DndProvider>
     </>
   );
 }
