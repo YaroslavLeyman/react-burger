@@ -1,24 +1,60 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import burgerConstructorStyles from './burger-constructor.module.css';
 import OrderDetails from '../order-details/order-details';
 import Modal from '../modal/modal';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientType } from '../../constants/type-check';
+import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd/dist/hooks/useDrop';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR, sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/burgerConstructorActions';
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = () => {
 
   const [isModalActive, setModalActive] = React.useState(false);
+  const allIngredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
+  const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
+  const bun = useSelector(store => store.burgerConstructorReducer.constructorBun);
+  const dispatch = useDispatch();
 
-  const [constructorBun ] = React.useState("60d3b41abdacab0026a733c6");
+  const handlerOrderClick = () => {
+    const orderIngredients = constructorIngredients.concat(bun);
+    dispatch(sendOrder(orderIngredients));
+    setModalActive(true);
+  }
 
-  const bun = ingredients.find((item) => item._id === constructorBun);
+  const handleRemoveItem = (constructorId) => {
+    dispatch({
+      type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+      payload: constructorId
+    })
+  }
+
+  let allCost = constructorIngredients.reduce( (sum, currentItem) => {
+    return sum + currentItem.price;
+  }, 0);
+  if(bun) allCost += 2 * bun.price;
+
+  const handleCloseModal = () => {
+    setModalActive(false);
+  }
+
+  const [, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(itemId) {
+      const item = allIngredients.find(item => item._id === itemId.id);
+      item.type === "bun" ? dispatch(addBunToConstructor(item)) : dispatch(addIngredientToConstructor(item));
+    }
+  })
+
+  const moveIngredient = (dragIndex, hoverIndex, constructorIngredients) => {
+    dispatch(changeIngredientsSort(dragIndex, hoverIndex, constructorIngredients));
+  }
 
   return(
     <>
-      <div className={`${burgerConstructorStyles.burgerConstructorContainer} mt-25 mb-8 `}>
+      <div className={`${burgerConstructorStyles.burgerConstructorContainer} mt-25 mb-8 `} ref={dropTarget}>
         {bun &&
           <div className="pb-4 pl-5">
             <ConstructorElement
@@ -32,15 +68,13 @@ const BurgerConstructor = ({ ingredients }) => {
         }
 
         <div className={`${burgerConstructorStyles.burgerConstructorItems} pr-4`}>
-          {ingredients
-          .filter(item => item.type !== "bun")
-          .map((item, index) => (
-            <div key={index} className={burgerConstructorStyles.burgerConstructorItem}>
-              <DragIcon type="primary" />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
+          {constructorIngredients.map((item, index) => (
+            <div key={item.constructorId} className={burgerConstructorStyles.burgerConstructorItem}>
+              <BurgerConstructorElement
+                ingredient={item}
+                index={index}
+                handleClose={() => handleRemoveItem(item.constructorId)}
+                moveIngredient={moveIngredient}
               />
             </div>
           ))}
@@ -61,7 +95,7 @@ const BurgerConstructor = ({ ingredients }) => {
 
       <div className={burgerConstructorStyles.burgerConstructorOrder}>
         <div className={`${burgerConstructorStyles.burgerConstructorOrderAll} mr-10 `}>
-          <p className="text text_type_digits-medium">6431</p>
+          <p className="text text_type_digits-medium">{allCost}</p>
           <CurrencyIcon type="primary" />
         </div>
         <div className={burgerConstructorStyles.burgerConstructorOrderSubmit}>
@@ -69,7 +103,7 @@ const BurgerConstructor = ({ ingredients }) => {
             htmlType="button"
             type="primary"
             size="large"
-            onClick={() => setModalActive(true)}
+            onClick={handlerOrderClick}
           >
             Оформить заказ
           </Button>
@@ -77,7 +111,7 @@ const BurgerConstructor = ({ ingredients }) => {
       </div>
 
       {isModalActive &&
-        <Modal onClose={() => setModalActive(false)}>
+        <Modal onClose={handleCloseModal}>
           <OrderDetails />
         </Modal>
       }
@@ -85,8 +119,4 @@ const BurgerConstructor = ({ ingredients }) => {
   )
 }
 
-BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired
-}
-
-export default BurgerConstructor;
+export default BurgerConstructor

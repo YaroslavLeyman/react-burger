@@ -1,46 +1,94 @@
+/* eslint-disable default-case */
 import React from 'react';
-import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
-import { ingredientType } from "../../constants/type-check";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_CURRENT_INGREDIENT } from '../../services/burgerConstructorActions';
 
 
-const BurgerIngredients = ( { ingredients } ) => {
+const BurgerIngredients = () => {
 
-  const [current, setCurrent] = React.useState('null')
+  const bunsRef = React.useRef();
+  const saucesRef = React.useRef();
+  const mainRef = React.useRef();
+  const containerRef = React.useRef();
+
+  const [currentTab, setCurrentTab] = React.useState("Булки");
+
+  const dispatch = useDispatch();
+
+  const setCurrent = (event) => {
+    let tabToScroll;
+    switch(event) {
+      case 'Булки':
+        tabToScroll = bunsRef;
+        break;
+      case 'Соусы':
+        tabToScroll = saucesRef;
+        break;
+      case 'Начинки':
+        tabToScroll = mainRef;
+        break;
+      default:
+        break;
+    }
+    tabToScroll.current.scrollIntoView( {behavior: "smooth"} );
+    setCurrentTab(event);
+  }
+
+  const handlerScroll = () => {
+    const containerY = containerRef.current.getBoundingClientRect().y;
+    const bunsOffset = Math.abs(bunsRef.current.getBoundingClientRect().y - containerY);
+    const saucesOffset = Math.abs(saucesRef.current.getBoundingClientRect().y - containerY);
+    const mainOffset = Math.abs(mainRef.current.getBoundingClientRect().y - containerY);
+
+    if(bunsOffset < saucesOffset && bunsOffset < mainOffset) setCurrentTab("Булки");
+    if(saucesOffset < bunsOffset && saucesOffset < mainOffset) setCurrentTab("Соусы");
+    if(mainOffset < bunsOffset && mainOffset < saucesOffset) setCurrentTab("Начинки");
+  }
+
+  const ingredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
 
   const handlerIngredientClick = ( item ) => {
-    setCurrent(item);
+    dispatch( { type: SET_CURRENT_INGREDIENT, payload: item } );
     setModalActive(true);
   }
 
   const [isModalActive, setModalActive] = React.useState(false);
 
-  const bunArray = ingredients.filter(item => item.type === "bun");
-  const sauceArray = ingredients.filter(item => item.type === "sauce");
-  const mainArray = ingredients.filter(item => item.type === "main");
+  const bunArray = React.useMemo(() => ingredients.filter(item => item.type === "bun"), [ingredients]);
+  const sauceArray = React.useMemo(() => ingredients.filter(item => item.type === "sauce"), [ingredients]);
+  const mainArray = React.useMemo(() => ingredients.filter(item => item.type === "main"), [ingredients]);
+
+  const handleCloseModal = () => {
+    dispatch({
+      type: SET_CURRENT_INGREDIENT,
+      payload: null
+    });
+    setModalActive(false);
+  }
 
   return(
     <>
       <div className="pt-10 pl-5">
         <h1 className="text text_type_main-large">Соберите бургер</h1>
         <div className={`${burgerIngredientsStyles.ingredientsTabs} pt-5 pb-10`}>
-          <Tab value="Булки" active={true} onClick={setCurrent}>
+          <Tab value="Булки" active={currentTab === 'Булки'} onClick={setCurrent}>
             Булки
           </Tab>
-          <Tab value="Соусы" active={false} onClick={setCurrent}>
+          <Tab value="Соусы" active={currentTab === 'Соусы'} onClick={setCurrent}>
             Соусы
           </Tab>
-          <Tab value="Начинки" active={false} onClick={setCurrent}>
+          <Tab value="Начинки" active={currentTab === 'Начинки'} onClick={setCurrent}>
             Начинки
           </Tab>
         </div>
 
-        <div className={burgerIngredientsStyles.ingredientsContainer}>
-          <h2 className="text text_type_main-medium">Булки</h2>
+        <div className={burgerIngredientsStyles.ingredientsContainer} ref={containerRef} onScroll={handlerScroll}>
+          <h2 className="text text_type_main-medium" ref={bunsRef}>Булки</h2>
           <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
             {bunArray.map((item) => (
               <li key={item._id} className={burgerIngredientsStyles.ingredientListItem} onClick={() => handlerIngredientClick(item)}>
@@ -54,7 +102,7 @@ const BurgerIngredients = ( { ingredients } ) => {
             ))}
           </ul>
 
-          <h2 className="text text_type_main-medium">Соусы</h2>
+          <h2 className="text text_type_main-medium" ref={saucesRef}>Соусы</h2>
           <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
             {sauceArray.map((item) => (
               <li key={item._id} className={burgerIngredientsStyles.ingredientListItem} onClick={() => handlerIngredientClick(item)}>
@@ -68,7 +116,7 @@ const BurgerIngredients = ( { ingredients } ) => {
             ))}
           </ul>
 
-          <h2 className="text text_type_main-medium">Начинки</h2>
+          <h2 className="text text_type_main-medium" ref={mainRef}>Начинки</h2>
           <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
             {mainArray.map((item) => (
               <li key={item._id} className={burgerIngredientsStyles.ingredientListItem} onClick={() => handlerIngredientClick(item)}>
@@ -86,18 +134,14 @@ const BurgerIngredients = ( { ingredients } ) => {
 
       {isModalActive &&
         <Modal
-            title={`Детали ингредиента`}
-            onClose={() => setModalActive(false)}
+          title={`Детали ингредиента`}
+          onClose={handleCloseModal}
         >
-        <IngredientDetails ingredientData={current} />
+        <IngredientDetails />
         </Modal>
       }
     </>
   )
-}
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
 }
 
 export default BurgerIngredients;
