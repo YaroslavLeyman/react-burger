@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import burgerConstructorElementStyles from './burger-constructor-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
@@ -72,4 +73,11 @@ export const BurgerConstructorElement = ( { ingredient, handleClose, index, move
     </div>
   )
 
+}
+
+BurgerConstructorElement.propTypes = {
+  ingredient: PropTypes.object.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  moveIngredient: PropTypes.func.isRequired
 }

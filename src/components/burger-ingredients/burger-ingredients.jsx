@@ -14,6 +14,7 @@ const BurgerIngredients = () => {
   const bunsRef = React.useRef();
   const saucesRef = React.useRef();
   const mainRef = React.useRef();
+  const containerRef = React.useRef();
 
   const [currentTab, setCurrentTab] = React.useState("Булки");
 
@@ -36,6 +37,17 @@ const BurgerIngredients = () => {
     }
     tabToScroll.current.scrollIntoView( {behavior: "smooth"} );
     setCurrentTab(event);
+  }
+
+  const handlerScroll = () => {
+    const containerY = containerRef.current.getBoundingClientRect().y;
+    const bunsOffset = Math.abs(bunsRef.current.getBoundingClientRect().y - containerY);
+    const saucesOffset = Math.abs(saucesRef.current.getBoundingClientRect().y - containerY);
+    const mainOffset = Math.abs(mainRef.current.getBoundingClientRect().y - containerY);
+
+    if(bunsOffset < saucesOffset && bunsOffset < mainOffset) setCurrentTab("Булки");
+    if(saucesOffset < bunsOffset && saucesOffset < mainOffset) setCurrentTab("Соусы");
+    if(mainOffset < bunsOffset && mainOffset < saucesOffset) setCurrentTab("Начинки");
   }
 
   const ingredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
@@ -75,7 +87,7 @@ const BurgerIngredients = () => {
           </Tab>
         </div>
 
-        <div className={burgerIngredientsStyles.ingredientsContainer}>
+        <div className={burgerIngredientsStyles.ingredientsContainer} ref={containerRef} onScroll={handlerScroll}>
           <h2 className="text text_type_main-medium" ref={bunsRef}>Булки</h2>
           <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
             {bunArray.map((item) => (
