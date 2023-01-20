@@ -2,11 +2,10 @@
 import React from 'react';
 import burgerIngredientsStyles from './burger-ingredients.module.css';
 import IngredientCard from '../ingredient-card/ingredient-card';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import Modal from '../modal/modal';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { SET_CURRENT_INGREDIENT } from '../../services/burgerConstructorActions';
+import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+
 
 
 const BurgerIngredients = () => {
@@ -16,9 +15,9 @@ const BurgerIngredients = () => {
   const mainRef = React.useRef();
   const containerRef = React.useRef();
 
-  const [currentTab, setCurrentTab] = React.useState("Булки");
+  const location = useLocation();
 
-  const dispatch = useDispatch();
+  const [currentTab, setCurrentTab] = React.useState("Булки");
 
   const setCurrent = (event) => {
     let tabToScroll;
@@ -52,24 +51,9 @@ const BurgerIngredients = () => {
 
   const ingredients = useSelector(store => store.burgerConstructorReducer.allIngredients);
 
-  const handlerIngredientClick = ( item ) => {
-    dispatch( { type: SET_CURRENT_INGREDIENT, payload: item } );
-    setModalActive(true);
-  }
-
-  const [isModalActive, setModalActive] = React.useState(false);
-
   const bunArray = React.useMemo(() => ingredients.filter(item => item.type === "bun"), [ingredients]);
   const sauceArray = React.useMemo(() => ingredients.filter(item => item.type === "sauce"), [ingredients]);
   const mainArray = React.useMemo(() => ingredients.filter(item => item.type === "main"), [ingredients]);
-
-  const handleCloseModal = () => {
-    dispatch({
-      type: SET_CURRENT_INGREDIENT,
-      payload: null
-    });
-    setModalActive(false);
-  }
 
   return(
     <>
@@ -89,57 +73,76 @@ const BurgerIngredients = () => {
 
         <div className={burgerIngredientsStyles.ingredientsContainer} ref={containerRef} onScroll={handlerScroll}>
           <h2 className="text text_type_main-medium" ref={bunsRef}>Булки</h2>
-          <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
+          <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4 pr-4`}>
             {bunArray.map((item) => (
-              <li key={item._id} className={burgerIngredientsStyles.ingredientListItem} onClick={() => handlerIngredientClick(item)}>
-                <IngredientCard
-                  id={item._id}
-                  name={item.name}
-                  price={item.price}
-                  image={item.image}
-                />
-              </li>
+              <Link
+                to={{
+                  pathname: '/ingredients/' + item._id,
+                  state: { background: location }
+                }}
+                className={burgerIngredientsStyles.ingredientListItem}
+                key={item._id}
+              >
+                <li>
+                  <IngredientCard
+                    id={item._id}
+                    name={item.name}
+                    price={item.price}
+                    image={item.image}
+                    type={item.type}
+                  />
+                </li>
+              </Link>
             ))}
           </ul>
 
           <h2 className="text text_type_main-medium" ref={saucesRef}>Соусы</h2>
-          <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
+          <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4 pr-4`}>
             {sauceArray.map((item) => (
-              <li key={item._id} className={burgerIngredientsStyles.ingredientListItem} onClick={() => handlerIngredientClick(item)}>
-                <IngredientCard
-                  id={item._id}
-                  name={item.name}
-                  price={item.price}
-                  image={item.image}
-                />
-              </li>
+              <Link
+                to={{
+                  pathname: '/ingredients/' + item._id,
+                  state: { background: location }
+                }}
+                className={burgerIngredientsStyles.ingredientListItem}
+                key={item._id}
+              >
+                <li>
+                  <IngredientCard
+                    id={item._id}
+                    name={item.name}
+                    price={item.price}
+                    image={item.image}
+                  />
+                </li>
+              </Link>
             ))}
           </ul>
 
           <h2 className="text text_type_main-medium" ref={mainRef}>Начинки</h2>
-          <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4`}>
+          <ul className={`${burgerIngredientsStyles.ingredientsGroupList} pt-6 pb-8 pl-4 pr-4`}>
             {mainArray.map((item) => (
-              <li key={item._id} className={burgerIngredientsStyles.ingredientListItem} onClick={() => handlerIngredientClick(item)}>
-                <IngredientCard
-                  id={item._id}
-                  name={item.name}
-                  price={item.price}
-                  image={item.image}
-                />
-              </li>
+              <Link
+                to={{
+                  pathname: '/ingredients/' + item._id,
+                  state: { background: location }
+                }}
+                className={burgerIngredientsStyles.ingredientListItem}
+                key={item._id}
+              >
+                <li>
+                  <IngredientCard
+                    id={item._id}
+                    name={item.name}
+                    price={item.price}
+                    image={item.image}
+                  />
+                </li>
+              </Link>
             ))}
           </ul>
         </div>
       </div>
-
-      {isModalActive &&
-        <Modal
-          title={`Детали ингредиента`}
-          onClose={handleCloseModal}
-        >
-        <IngredientDetails />
-        </Modal>
-      }
     </>
   )
 }

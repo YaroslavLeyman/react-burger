@@ -2,28 +2,36 @@
   background: #1C1C21;
 }
 
-.headerContent {
+.headerContainer {
   max-width: 1280px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'JetBrains Mono', 'Arial', sans-serif;
+}
+
+.headerContainer > * {
+  width: calc(100% / 3);
+  display: flex;
   align-items: center;
 }
 
-.nav {
-  margin-right: auto;
+.logoBlock {
+  justify-content: center;
 }
 
-.list {
-  display: flex;
-  list-style-type: none;
-  padding: 0;
+.personalBlock {
+  justify-content: end;
 }
 
-.listBox {
+.linksBlock > div, .personalBlock > div {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
+a {
+  text-decoration: none;
+}
 
