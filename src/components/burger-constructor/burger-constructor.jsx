@@ -8,7 +8,9 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd/dist/hooks/useDrop';
-import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR, sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/burgerConstructorActions';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burgerConstructorActions';
+import { sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/action-creators/burgerConstructorActionCreators';
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
 
@@ -17,11 +19,17 @@ const BurgerConstructor = () => {
   const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
   const bun = useSelector(store => store.burgerConstructorReducer.constructorBun);
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector(store => store.userReducer.isAuthenticated);
+  let navigate = useNavigate();
 
-  const handlerOrderClick = () => {
-    const orderIngredients = constructorIngredients.concat(bun);
-    dispatch(sendOrder(orderIngredients));
-    setModalActive(true);
+  const handleMakeOrderClick = () => {
+    if(!isAuthenticated) {
+      navigate({ pathname: '/login' })
+    } else {
+      const orderIngredients = constructorIngredients.concat(bun);
+      dispatch(sendOrder(orderIngredients));
+      setModalActive(true);
+    }
   }
 
   const handleRemoveItem = (constructorId) => {
@@ -103,7 +111,8 @@ const BurgerConstructor = () => {
             htmlType="button"
             type="primary"
             size="large"
-            onClick={handlerOrderClick}
+            onClick={handleMakeOrderClick}
+            disabled={(constructorIngredients.length === 0 && !bun) ? true : false}
           >
             Оформить заказ
           </Button>

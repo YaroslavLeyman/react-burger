@@ -1,36 +1,104 @@
 import React from 'react';
 import styles from './app.module.css';
-
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import AppHeader from '../app-header/app-header';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import { LoginPage } from '../../pages/login/login';
+import { RegisterPage } from '../../pages/register/register';
+import { ForgotPasswordPage } from '../../pages/forgot-password/forgot-password';
+import { ResetPasswordPage } from '../../pages/reset-password/reset-password';
+import { ProfilePage } from '../../pages/profile/profile';
+import { NotFound404 } from '../../pages/not-found-404/not-found-404';
+import { MainPage } from '../../pages/main/main';
+import { ProtectedRoute } from '../protected-route/protected-route';
+import { getIngredients } from '../../services/action-creators/burgerConstructorActionCreators';
+import { getCookie } from '../../constants/cookies';
+import { getUser } from '../../services/action-creators/userActionCreators';
 
-import { getIngredients } from '../../services/burgerConstructorActions';
-import { useDispatch } from 'react-redux';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const App = () => {
 
   const dispatch = useDispatch();
 
+  const { isLoading, error, allIngredients } = useSelector(store => store.burgerConstructorReducer);
+
+  const location = useLocation();
+  const background = location.state && location.state.background;
+  const navigate = useNavigate();
+
   React.useEffect(() => {
+
+    if (getCookie('accessToken')) {
+      dispatch(getUser());
+    }
     dispatch(getIngredients());
+
   }, [dispatch]);
+
+  if (isLoading) {
+    return <h1>Загрузка...</h1>
+  }
+
+  if (!isLoading && error.length > 0) {
+    return <h1>Ошибка</h1>
+  }
+
+  if (!isLoading && allIngredients.length === 0) {
+    return <h1>Нет ингредиентов</h1>
+  }
 
   return (
     <>
       <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <section className={styles.ingredientsSection}>
-            <BurgerIngredients />
-          </section>
-          <section>
-            <BurgerConstructor />
-          </section>
-        </main>
-      </DndProvider>
+      <Routes location={background || location}>
+        <Route path="/login" element={
+          <ProtectedRoute unAuthorizedOnly={true} >
+            <LoginPage />
+          </ProtectedRoute>
+        }></Route>
+        <Route path="/register" exact={true} element={
+          <ProtectedRoute unAuthorizedOnly={true} >
+            <RegisterPage />
+          </ProtectedRoute>
+        }></Route>
+        <Route path="/forgot-password" exact={true} element={
+          <ProtectedRoute unAuthorizedOnly={true} >
+            <ForgotPasswordPage />
+          </ProtectedRoute>
+        }></Route>
+        <Route path="/reset-password" exact={true} element={
+          <ProtectedRoute unAuthorizedOnly={true} >
+            <ResetPasswordPage />
+          </ProtectedRoute>
+        }></Route>
+        <Route path="/profile" element={
+          <ProtectedRoute unAuthorizedOnly={false} >
+            <ProfilePage />
+          </ProtectedRoute>
+        }></Route>
+        <Route path="/ingredients/:id" exact={true} element={
+          <div className={styles.ingredientDetailsPageWrapper}>
+            <h2 className="text text_type_main-large">Детали ингредиента</h2>
+            <IngredientDetails />
+          </div>
+        }></Route>
+        <Route path="/" exact={true} element={<MainPage />}></Route>
+        <Route path="*" element={<NotFound404 />}></Route>
+      </Routes>
+      {background && <Routes>
+        (<Route path="/ingredients/:id" exact={true}>
+            <Modal
+              title='Детали ингредиента'
+              onClose={() => {
+                navigate({ pathname: "/"});
+              }}
+            >
+              <IngredientDetails />
+            </Modal>
+        </Route>)
+      </Routes>}
     </>
   );
 }

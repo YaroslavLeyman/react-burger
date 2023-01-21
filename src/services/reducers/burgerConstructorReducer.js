@@ -1,15 +1,14 @@
-import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR,
-  SET_CURRENT_INGREDIENT,
-  SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, SEND_ORDER_ERROR,
+import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_ERROR, SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, SEND_ORDER_ERROR,
   ADD_INGREDIENT_TO_CONSTRUCTOR, REMOVE_INGREDIENT_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR, CHANGE_INGREDIENTS_ORDER, ADD_BUN_TO_CONSTRUCTOR
-} from "./burgerConstructorActions";
+} from "../actions/burgerConstructorActions";
 
 const initialState = {
   allIngredients: [],
   constructorIngredients: [],
   constructorBun: null,
-  currentIngredient: null,
-  order: null
+  order: null,
+  isLoading: false,
+  error: ''
 }
 
 export const burgerConstructorReducer = (state = initialState, action) => {
@@ -19,26 +18,24 @@ export const burgerConstructorReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
+        isLoading: true
       }
     }
 
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
-        allIngredients: action.payload
+        allIngredients: action.payload,
+        isLoading: false,
+        error: ''
       }
     }
 
     case GET_INGREDIENTS_ERROR: {
       return {
         ...state,
-      }
-    }
-
-    case SET_CURRENT_INGREDIENT: {
-      return {
-        ...state,
-        currentIngredient: action.payload
+        isLoading: false,
+        error: 'Не удалось загрузить ингредиенты'
       }
     }
 
