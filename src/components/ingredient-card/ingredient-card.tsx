@@ -1,13 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ingredientCardStyles from './ingredient-card.module.css';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd/dist/hooks';
+import { TIngredient } from '../../constants/type-check';
+import { useAppSelector } from '../../hooks/useForm';
 
-const IngredientCard = ( { id, name, price, image } ) => {
-  const constructorIngredients = useSelector(store => store.burgerConstructorReducer.constructorIngredients);
-  const numInConstructor = constructorIngredients.filter(item => item._id === id).length;
+interface IIngredienCard {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  type?: string;
+}
+
+const IngredientCard = ( { id, name, price, image, type }: IIngredienCard ) => {
+
+  const constructorIngredients = useAppSelector(store => store.burgerConstructorReducer.constructorIngredients);
+  const constructorBun = useAppSelector(store => store.burgerConstructorReducer.constructorBun);
+  let numInConstructor = 0;
+  (type === "bun" && constructorBun !== null && id === constructorBun._id)
+    ? numInConstructor = 2
+    : numInConstructor = constructorIngredients.filter((item: TIngredient) => item._id === id).length;
+
   const [, dragRef] = useDrag({
     type: "ingredient",
     item: {id}
@@ -26,13 +40,6 @@ const IngredientCard = ( { id, name, price, image } ) => {
       <p className={`${ingredientCardStyles.ingredientCardName} text text_type_main-default`}>{name}</p>
     </div>
   )
-}
-
-IngredientCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired
 }
 
 export default IngredientCard;

@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
+import React, { FC } from 'react';
 import orderDetailsStyles from './order-details.module.css';
 import iconOrder from '../../images/iconOrder.svg';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../hooks/useForm';
 
-const OrderDetails = () => {
+const OrderDetails: FC = () => {
 
-  const order = useSelector(store => store.burgerConstructorReducer.order);
+  const order = useAppSelector(store => store.burgerConstructorReducer.order);
 
   return (
     <div className={`${orderDetailsStyles.orderDetailsContainer} pt-30 pb-30`}>
