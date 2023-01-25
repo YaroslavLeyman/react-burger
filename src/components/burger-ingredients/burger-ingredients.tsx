@@ -5,7 +5,7 @@ import IngredientCard from '../ingredient-card/ingredient-card';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation } from 'react-router-dom';
 import { TIngredient } from '../../constants/type-check';
-import { useAppDispatch, useAppSelector } from '../../hooks/useForm';
+import { useAppSelector } from '../../hooks/useForm';
 
 
 
@@ -18,7 +18,6 @@ const BurgerIngredients: FC = () => {
 
   const location = useLocation();
   const [currentTab, setCurrentTab] = useState<string>("Булки");
-  const dispatch = useAppDispatch();
 
   const setCurrent = (event: string) => {
     let tabToScroll;

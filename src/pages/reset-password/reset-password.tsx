@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import resetPasswordStyles from './reset-password.module.css';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword } from '../../services/action-creators/userActionCreators';
 import { useAppDispatch, useAppSelector, useForm } from '../../hooks/useForm';
@@ -23,7 +23,7 @@ export const ResetPasswordPage: FC = () => {
 
   if (!isResettingPassword) {
     return (
-      <Navigate to={{ pathname: '/forgot-password' }} />
+      <Redirect to={{ pathname: '/forgot-password' }} />
     )
   }
 

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import forgotPasswordStyles from './forgot-password.module.css';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { forgotPassword } from '../../services/action-creators/userActionCreators';
 import { useForm, useAppDispatch, useAppSelector } from '../../hooks/useForm';
@@ -22,7 +22,7 @@ export const ForgotPasswordPage: FC = () => {
 
   return (
     isResettingPassword ? (
-        <Navigate to = '/reset-password' />
+        <Redirect to = '/reset-password' />
     ) : (
       <section className={forgotPasswordStyles.loginFormWrapper}>
         <div className={forgotPasswordStyles.loginForm}>
