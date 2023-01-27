@@ -1,12 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
-  REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
-  REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR,
-  FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_ERROR,
-  RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR,
-  LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
-  GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_ERROR,
-  UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR,
-} from "../actions/userActions";
+import { userActions } from "../actions/userActions";
 
 const initialState = {
   userName: null,
@@ -17,18 +9,18 @@ const initialState = {
   error: ''
 }
 
-export const userReducer = (state = initialState, action ) => {
+export const userReducer = (state = initialState, action: any ) => {
 
   switch(action.type) {
 
-    case LOGIN_REQUEST: {
+    case userActions.LOGIN_REQUEST: {
       return {
         ...state,
         isLoading: true
       }
     }
 
-    case LOGIN_SUCCESS: {
+    case userActions.LOGIN_SUCCESS: {
       return {
         ...state,
         isAuthenticated: true,
@@ -39,7 +31,7 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case LOGIN_ERROR: {
+    case userActions.LOGIN_ERROR: {
       return {
         ...state,
         isLoading: false,
@@ -47,14 +39,14 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case REGISTER_REQUEST: {
+    case userActions.REGISTER_REQUEST: {
       return {
         ...state,
         isLoading: true
       }
     }
 
-    case REGISTER_SUCCESS: {
+    case userActions.REGISTER_SUCCESS: {
       return {
         ...state,
         isLoading: false,
@@ -62,7 +54,7 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case REGISTER_ERROR: {
+    case userActions.REGISTER_ERROR: {
       return {
         ...state,
         isLoading: false,
@@ -70,69 +62,69 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case REFRESH_TOKEN_REQUEST: {
+    case userActions.REFRESH_TOKEN_REQUEST: {
       return {
         ...state,
       }
     }
 
-    case REFRESH_TOKEN_SUCCESS: {
+    case userActions.REFRESH_TOKEN_SUCCESS: {
       return {
         ...state,
       }
     }
 
-    case REFRESH_TOKEN_ERROR: {
+    case userActions.REFRESH_TOKEN_ERROR: {
       return {
         ...state,
       }
     }
 
-    case FORGOT_PASSWORD_REQUEST: {
+    case userActions.FORGOT_PASSWORD_REQUEST: {
       return {
         ...state,
       }
     }
 
-    case FORGOT_PASSWORD_SUCCESS: {
+    case userActions.FORGOT_PASSWORD_SUCCESS: {
       return {
         ...state,
         isResettingPassword: true
       }
     }
 
-    case FORGOT_PASSWORD_ERROR: {
+    case userActions.FORGOT_PASSWORD_ERROR: {
       return {
         ...state,
       }
     }
 
-    case RESET_PASSWORD_REQUEST: {
+    case userActions.RESET_PASSWORD_REQUEST: {
       return {
         ...state,
       }
     }
 
-    case RESET_PASSWORD_SUCCESS: {
+    case userActions.RESET_PASSWORD_SUCCESS: {
       return {
         ...state,
         isResettingPassword: false,
       }
     }
 
-    case RESET_PASSWORD_ERROR: {
+    case userActions.RESET_PASSWORD_ERROR: {
       return {
         ...state,
       }
     }
 
-    case LOGOUT_REQUEST: {
+    case userActions.LOGOUT_REQUEST: {
       return {
         ...state,
       }
     }
 
-    case LOGOUT_SUCCESS: {
+    case userActions.LOGOUT_SUCCESS: {
       return {
         ...state,
         userName: null,
@@ -141,20 +133,20 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case LOGOUT_ERROR: {
+    case userActions.LOGOUT_ERROR: {
       return {
         ...state,
       }
     }
 
-    case GET_USER_REQUEST: {
+    case userActions.GET_USER_REQUEST: {
       return {
         ...state,
         isLoading: true,
       }
     }
 
-    case GET_USER_SUCCESS: {
+    case userActions.GET_USER_SUCCESS: {
       return {
         ...state,
         userName: action.payload.name,
@@ -165,7 +157,7 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case GET_USER_ERROR: {
+    case userActions.GET_USER_ERROR: {
       return {
         ...state,
         isLoading: false,
@@ -173,14 +165,14 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case UPDATE_USER_REQUEST: {
+    case userActions.UPDATE_USER_REQUEST: {
       return {
         ...state,
         isLoading: true,
       }
     }
 
-    case UPDATE_USER_SUCCESS: {
+    case userActions.UPDATE_USER_SUCCESS: {
       return {
         ...state,
         isLoading: false,
@@ -188,7 +180,7 @@ export const userReducer = (state = initialState, action ) => {
       }
     }
 
-    case UPDATE_USER_ERROR: {
+    case userActions.UPDATE_USER_ERROR: {
       return {
         ...state,
         isLoading: false,

@@ -1,16 +1,7 @@
 import { baseUrl } from "../../constants/api";
 import { getCookie, setCookie } from "../../constants/cookies";
 import { request, requestWithRefresh } from "../../constants/request";
-import {
-    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR,
-    REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR,
-    REFRESH_TOKEN_REQUEST, REFRESH_TOKEN_SUCCESS, REFRESH_TOKEN_ERROR,
-    FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_ERROR,
-    RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR,
-    LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
-    GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_ERROR,
-    UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR
-} from "../actions/userActions";
+import { userActions } from "../actions/userActions";
 
 export const login = (email, password) => {
 
@@ -18,7 +9,7 @@ export const login = (email, password) => {
 
   return function(dispatch) {
     dispatch({
-      type: LOGIN_REQUEST
+      type: userActions.LOGIN_REQUEST
     })
 
     request(requestUrl, {
@@ -30,7 +21,7 @@ export const login = (email, password) => {
     })
         .then( (responseData) => {
           dispatch({
-            type: LOGIN_SUCCESS,
+            type: userActions.LOGIN_SUCCESS,
             payload: responseData.user
           });
           localStorage.setItem('refreshToken', responseData.refreshToken);
@@ -42,7 +33,7 @@ export const login = (email, password) => {
         })
         .catch( (error) => {
           dispatch({
-            type: LOGIN_ERROR
+            type: userActions.LOGIN_ERROR
           })
           alert("Ошибка при логине: " + error)
         });
@@ -56,7 +47,7 @@ export const register = (email, password, name) => {
 
   return function(dispatch) {
     dispatch({
-      type: REGISTER_REQUEST
+      type: userActions.REGISTER_REQUEST
     })
 
     request(requestUrl, {
@@ -68,13 +59,13 @@ export const register = (email, password, name) => {
     })
         .then( (responseData) => {
           dispatch({
-            type: REGISTER_SUCCESS,
+            type: userActions.REGISTER_SUCCESS,
             payload: responseData.data
           })
         })
         .catch( (error) => {
           dispatch({
-            type: REGISTER_ERROR
+            type: userActions.REGISTER_ERROR
           })
           alert("Ошибка при регистрации: " + error)
         });
@@ -88,19 +79,19 @@ export const refreshToken = () => {
 
   return function(dispatch) {
     dispatch({
-      type: REFRESH_TOKEN_REQUEST
+      type: userActions.REFRESH_TOKEN_REQUEST
     })
 
     request(requestUrl)
       .then( (responseData) => {
         dispatch({
-          type: REFRESH_TOKEN_SUCCESS,
+          type: userActions.REFRESH_TOKEN_SUCCESS,
           payload: responseData.data
         })
       })
       .catch( (error) => {
         dispatch({
-          type: REFRESH_TOKEN_ERROR
+          type: userActions.REFRESH_TOKEN_ERROR
         })
         alert("Ошибка при обновлении токена: " + error)
       });
@@ -114,7 +105,7 @@ export const forgotPassword = (email) => {
 
   return function(dispatch) {
     dispatch({
-      type: FORGOT_PASSWORD_REQUEST
+      type: userActions.FORGOT_PASSWORD_REQUEST
     })
 
     request(requestUrl, {
@@ -126,12 +117,12 @@ export const forgotPassword = (email) => {
     })
       .then( (responseData) => {
         dispatch({
-          type: FORGOT_PASSWORD_SUCCESS
+          type: userActions.FORGOT_PASSWORD_SUCCESS
         })
       })
       .catch( (error) => {
         dispatch({
-          type: FORGOT_PASSWORD_ERROR
+          type: userActions.FORGOT_PASSWORD_ERROR
         })
         alert("Ошибка при запросе на восстановление пароля: " + error)
       });
@@ -145,7 +136,7 @@ export const resetPassword = (newPassword, resetPasswordCode) => {
 
   return function(dispatch) {
     dispatch({
-        type: RESET_PASSWORD_REQUEST
+        type: userActions.RESET_PASSWORD_REQUEST
     })
 
     request(requestUrl, {
@@ -157,12 +148,12 @@ export const resetPassword = (newPassword, resetPasswordCode) => {
     })
       .then( (responseData) => {
         dispatch({
-          type: RESET_PASSWORD_SUCCESS
+          type: userActions.RESET_PASSWORD_SUCCESS
         })
       })
       .catch( (error) => {
         dispatch({
-          type: RESET_PASSWORD_ERROR
+          type: userActions.RESET_PASSWORD_ERROR
         })
         alert("Ошибка при восстановлении пароля: " + error)
       });
@@ -176,7 +167,7 @@ export const logout = () => {
 
   return function(dispatch) {
     dispatch({
-      type: LOGOUT_REQUEST
+      type: userActions.LOGOUT_REQUEST
     })
 
     request(requestUrl, {
@@ -188,12 +179,12 @@ export const logout = () => {
     })
       .then( (responseData) => {
         dispatch({
-          type: LOGOUT_SUCCESS
+          type: userActions.LOGOUT_SUCCESS
         })
       })
       .catch( (error) => {
         dispatch({
-          type: LOGOUT_ERROR
+          type: userActions.LOGOUT_ERROR
         })
         alert("Ошибка при выходе из системы: " + error)
       });
@@ -207,7 +198,7 @@ export const getUser = () => {
 
   return function(dispatch) {
     dispatch({
-      type: GET_USER_REQUEST
+      type: userActions.GET_USER_REQUEST
     })
 
     requestWithRefresh(requestUrl, {
@@ -218,13 +209,13 @@ export const getUser = () => {
     })
       .then( (responseData) => {
         dispatch({
-          type: GET_USER_SUCCESS,
+          type: userActions.GET_USER_SUCCESS,
           payload: responseData.user
         })
       })
       .catch( (error) => {
         dispatch({
-          type: GET_USER_ERROR
+          type: userActions.GET_USER_ERROR
         })
         alert("Ошибка загрузки пользователя: " + error)
       });
@@ -238,7 +229,7 @@ export const updateUser = (name, email, password) => {
 
   return function(dispatch) {
     dispatch({
-      type: UPDATE_USER_REQUEST
+      type: userActions.UPDATE_USER_REQUEST
     })
 
     requestWithRefresh(requestUrl, {
@@ -250,13 +241,13 @@ export const updateUser = (name, email, password) => {
     })
       .then( (responseData) => {
         dispatch({
-          type: UPDATE_USER_SUCCESS,
+          type: userActions.UPDATE_USER_SUCCESS,
           payload: responseData.user
         })
       })
       .catch( (error) => {
         dispatch({
-          type: UPDATE_USER_ERROR
+          type: userActions.UPDATE_USER_ERROR
         })
         alert("Ошибка обновления пользователя: " + error)
       });
