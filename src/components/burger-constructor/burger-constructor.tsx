@@ -6,7 +6,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
-import { useDrop } from 'react-dnd/dist/hooks/useDrop';
+import { useDrop } from 'react-dnd';
 import { sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/action-creators/burgerConstructorActionCreators';
 import { useHistory } from 'react-router-dom';
 import { TConstructorIngredient, TIngredient } from '../../constants/type-check';
@@ -52,7 +52,7 @@ const BurgerConstructor: FC = () => {
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop(itemId: any) {
+    drop(itemId: {id: string}) {
       const item = allIngredients.find((item: TIngredient) => item._id === itemId.id);
       item.type === "bun"
         ? dispatch(addBunToConstructor(item))

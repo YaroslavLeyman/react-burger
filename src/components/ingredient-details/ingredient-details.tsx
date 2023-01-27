@@ -7,7 +7,7 @@ import { useAppSelector } from '../../hooks/useForm';
 
 const IngredientDetails: FC = () => {
 
-  const { id }: any = useParams();
+  const { id } = useParams<{id: string}>();
   const allIngredients = useAppSelector(store => store.burgerConstructorReducer.allIngredients);
   const currentIngredient = allIngredients.find((item: TIngredient) => item._id === id);
 

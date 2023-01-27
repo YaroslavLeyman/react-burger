@@ -25,11 +25,12 @@ export const BurgerConstructorElement = ( { ingredient, handleClose, index, move
         handlerId: monitor.getHandlerId(),
       }
     },
-    hover(item: any, monitor) {
+    hover(item: unknown, monitor) {
+      const thisItem = item as IBurgerConstructorElement
       if (!ref.current) {
         return
       }
-      const dragIndex = item.index;
+      const dragIndex = thisItem.index;
       const hoverIndex = index;
 
       if (dragIndex === hoverIndex) {
@@ -49,7 +50,7 @@ export const BurgerConstructorElement = ( { ingredient, handleClose, index, move
 
       moveIngredient( dragIndex, hoverIndex, constructorIngredients );
 
-      item.index = hoverIndex;
+      thisItem.index = hoverIndex;
     },
   })
 
