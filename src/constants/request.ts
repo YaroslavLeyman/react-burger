@@ -1,12 +1,12 @@
 import { baseUrl } from "./api";
 import { setCookie } from "./cookies";
 
-export function request(url: string, options: RequestInit) {
+export function request(url: string, options?: RequestInit) {
   return fetch(url, options)
       .then(checkResponse)
 }
 
-function checkResponse(res: Response): Promise<any> {
+function checkResponse(res: Response) {
   if(res.ok) {
     return res.json();
   }
@@ -25,7 +25,7 @@ export const refreshToken = () => {
   }).then(checkResponse);
 };
 
-export const requestWithRefresh = async (url: string, options: RequestInit & { headers: { authorization: string} } ) => {
+export const requestWithRefresh = async (url: string, options: RequestInit & { headers: { Authorization: string} } ) => {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
@@ -37,7 +37,7 @@ export const requestWithRefresh = async (url: string, options: RequestInit & { h
       }
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       setCookie("accessToken", refreshData.accessToken);
-      options.headers.authorization = refreshData.accessToken;
+      options.headers.Authorization = refreshData.accessToken;
       const res = await fetch(url, options);
       return await checkResponse(res);
     } else {

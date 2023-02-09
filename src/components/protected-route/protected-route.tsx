@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { useAppSelector } from '../../hooks/useForm';
 import { Route, Redirect, useLocation, RouteProps } from 'react-router-dom';
+import { useAppSelector } from '../../services/types/index';
 
 type TProtectedRouteProps = RouteProps & {
   unAuthorizedOnly?: boolean;

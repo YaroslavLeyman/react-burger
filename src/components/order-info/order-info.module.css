@@ -1,0 +1,62 @@
+.orderInfoContainer {
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+  margin: 130px auto;
+}
+
+.ordersInfoHeading {
+  text-align: center;
+}
+
+.orderInfoStatus {
+  color: #00CCCC;
+}
+
+.orderInfoIngredientsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.orderInfoIngredient {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.orderInfoIngredientPreview {
+  height: 64px;
+  width: 64px;
+  background-color: #131316;
+  border-radius: 100px;
+  position: relative;
+  border: 2px solid #801AB2;
+}
+
+.orderInfoIngredientPreviewImage {
+  max-width: 112px;
+  position: relative;
+  left: -24px;
+}
+
+.orderInfoIngredientNameBlock {
+  flex-grow: 1;
+}
+
+.orderInfoIngredientName {
+  max-width: 320px;
+}
+
+.ordersInfoBottom {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderInfoIngredientTotal {
+  display: flex;
+  gap: 9px;
+}
