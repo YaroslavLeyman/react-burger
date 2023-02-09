@@ -4,8 +4,7 @@ import burgerIngredientsStyles from './burger-ingredients.module.css';
 import IngredientCard from '../ingredient-card/ingredient-card';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Link, useLocation } from 'react-router-dom';
-import { TIngredient } from '../../constants/type-check';
-import { useAppSelector } from '../../hooks/useForm';
+import { TIngredient, useAppSelector } from '../../services/types/index';
 
 
 

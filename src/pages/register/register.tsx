@@ -3,7 +3,8 @@ import registerStyles from './register.module.css';
 import { Link } from 'react-router-dom';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register } from '../../services/action-creators/userActionCreators';
-import { useForm, useAppDispatch } from '../../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
+import { useAppDispatch } from '../../services/types/index';
 
 
 export const RegisterPage: FC = () => {

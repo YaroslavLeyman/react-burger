@@ -1,17 +1,16 @@
 import React, { useState, FC } from "react";
 import burgerConstructorStyles from './burger-constructor.module.css';
-import OrderDetails from '../order-details/order-details';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/button';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/constructor-element';
 import Modal from '../modal/modal';
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
-import { useDrop } from 'react-dnd';
+import OrderDetails from '../order-details/order-details';
+import { REMOVE_INGREDIENT_FROM_CONSTRUCTOR } from '../../services/actions/burgerConstructorActions';
 import { sendOrder, addIngredientToConstructor, changeIngredientsSort, addBunToConstructor } from '../../services/action-creators/burgerConstructorActionCreators';
+import { useDrop } from 'react-dnd/dist/hooks/useDrop';
+import { BurgerConstructorElement } from '../burger-constructor-element/burger-constructor-element';
 import { useHistory } from 'react-router-dom';
-import { TConstructorIngredient, TIngredient } from '../../constants/type-check';
-import { useAppDispatch, useAppSelector } from '../../hooks/useForm';
-import { burgerConstructorActions } from '../../services/actions/burgerConstructorActions';
+import { TConstructorIngredient, TIngredient, useAppDispatch, useAppSelector } from '../../services/types/index';
 
 const BurgerConstructor: FC = () => {
 
@@ -25,9 +24,14 @@ const BurgerConstructor: FC = () => {
 
   const handleMakeOrderClick = () => {
     if(!isAuthenticated) {
-      history.replace({ pathname: '/login' })
+        history.replace({ pathname: '/login' })
     } else {
-      const orderIngredients = constructorIngredients.concat(bun);
+      let orderIngredients;
+      if (bun) {
+        orderIngredients = constructorIngredients.concat(bun);
+      } else {
+        orderIngredients = constructorIngredients;
+      }
       dispatch(sendOrder(orderIngredients));
       setModalActive(true);
     }
@@ -35,7 +39,7 @@ const BurgerConstructor: FC = () => {
 
   const handleRemoveItem = (constructorId: string) => {
     dispatch({
-      type: burgerConstructorActions.REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
+      type: REMOVE_INGREDIENT_FROM_CONSTRUCTOR,
       payload: constructorId
     })
   }
@@ -54,9 +58,10 @@ const BurgerConstructor: FC = () => {
     accept: "ingredient",
     drop(itemId: {id: string}) {
       const item = allIngredients.find((item: TIngredient) => item._id === itemId.id);
-      item.type === "bun"
-        ? dispatch(addBunToConstructor(item))
-        : dispatch(addIngredientToConstructor(item));
+      if (item) {
+        if (item.type === "bun") dispatch(addBunToConstructor(item));
+        if (item && item.type !== "bun") dispatch(addIngredientToConstructor(item));
+      }
     }
   })
 

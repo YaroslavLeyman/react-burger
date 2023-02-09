@@ -3,7 +3,8 @@ import resetPasswordStyles from './reset-password.module.css';
 import { Link, Redirect } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { resetPassword } from '../../services/action-creators/userActionCreators';
-import { useAppDispatch, useAppSelector, useForm } from '../../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
+import { useAppDispatch, useAppSelector } from '../../services/types/index';
 
 export const ResetPasswordPage: FC = () => {
 

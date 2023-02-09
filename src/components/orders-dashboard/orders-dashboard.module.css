@@ -1,0 +1,26 @@
+.ordersDashboardContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.ordersDashboardStatuses {
+  display: flex;
+  gap: 36px;
+}
+
+.ordersDashboardStatus {
+  flex: 1 0;
+}
+
+.ordersDashboardStatusReady {
+  color: #00CCCC;
+}
+
+.orderDashboardNumbers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-height: 313px;
+}

@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import burgerConstructorElementStyles from './burger-constructor-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
-import { TConstructorIngredient } from '../../constants/type-check';
-import { useAppSelector } from '../../hooks/useForm';
+import { TConstructorIngredient, useAppSelector } from '../../services/types/index';
 
 interface IBurgerConstructorElement {
   ingredient: TConstructorIngredient;
