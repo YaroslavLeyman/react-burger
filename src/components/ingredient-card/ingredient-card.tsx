@@ -27,7 +27,7 @@ const IngredientCard = ( { id, name, price, image, type }: IIngredienCard ) => {
   });
 
   return(
-    <div className={ingredientCardStyles.ingredientCardItem} ref={dragRef}>
+    <div className={ingredientCardStyles.ingredientCardItem} ref={dragRef} data-test="ingredientListItem">
       {(numInConstructor > 0) &&
         <Counter count={numInConstructor} size="default" />
       }

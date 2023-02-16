@@ -6,7 +6,7 @@ import {
   RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_ERROR,
   LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_ERROR,
   GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_ERROR,
-  UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR,
+  UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_ERROR
 } from "../actions/userActions";
 import { TUserActions } from "../actions/userActions";
 
@@ -19,7 +19,7 @@ type TUserState = {
   error: string | null,
 }
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   userName: null,
   userLogin: null,
   isAuthenticated: false,

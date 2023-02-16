@@ -8,21 +8,21 @@ import { useAppDispatch } from '../../services/types/index';
 
 export const LoginPage: FC = () => {
 
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-    const { values, handleChange } = useForm({
-      email: '',
-      password: '',
-    })
+  const { values, handleChange } = useForm({
+    email: '',
+    password: '',
+  })
 
-    const handleLogin = (e: React.FormEvent) => {
-      e.preventDefault();
-      dispatch(login(values.email, values.password));
-    }
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(login(values.email, values.password));
+  }
 
-    return (
-      <section className={loginStyles.loginFormWrapper}>
-        <div className={loginStyles.loginForm}>
+  return (
+    <section className={loginStyles.loginFormWrapper}>
+      <div className={loginStyles.loginForm}>
           <h2 className={`${loginStyles.loginFormHeader} text text_type_main-medium`}>Вход</h2>
           <div className="pt-6 pb-20">
             <form className={loginStyles.loginFormBody} onSubmit={handleLogin}>
@@ -30,11 +30,13 @@ export const LoginPage: FC = () => {
                 name={'email'}
                 value={values.email}
                 onChange={handleChange}
+                data-testid="email_input"
               />
               <PasswordInput
                 name={'password'}
                 value={values.password}
                 onChange={handleChange}
+                data-testid="password_input"
               />
               <Button htmlType="submit" type="primary" size="large">
                 Войти
@@ -47,8 +49,8 @@ export const LoginPage: FC = () => {
           <p className={`${loginStyles.loginFormParagraph} text text_type_main-default text_color_inactive`}>
             Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link>
           </p>
-        </div>
-      </section>
-    )
+      </div>
+    </section>
+  )
 
 }

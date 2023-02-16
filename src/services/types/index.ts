@@ -84,3 +84,10 @@ export type TUser = {
   name: string;
   email: string;
 }
+
+export type TWSMessage = {
+  success: boolean;
+  orders: TOrder[];
+  total: number;
+  totalToday: number;
+}
