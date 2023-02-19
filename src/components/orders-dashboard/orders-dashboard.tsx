@@ -7,8 +7,8 @@ const OrdersDashboard: FC = () => {
 
   const { orders, totalOrders, totalOrdersToday } = useAppSelector(store => store.wsReducer);
 
-  const ordersReady = orders.filter((order: TOrder) => order.status === "done").slice(0, 20);
-  const ordersInProgress = orders.filter((order: TOrder) => order.status === "pending").slice(0, 20);
+  const ordersReady: TOrder[] = orders.filter((order: TOrder) => order.status === "done").slice(0, 20);
+  const ordersInProgress: TOrder[] = orders.filter((order: TOrder) => order.status === "pending").slice(0, 20);
 
   return (
     <div className={ordersDashboardStyles.ordersDashboardContainer}>
@@ -17,7 +17,7 @@ const OrdersDashboard: FC = () => {
           <h2 className="text text_type_main-medium pb-6">Готовы:</h2>
           <div className={`${ordersDashboardStyles.ordersDashboardStatusReady} text text_type_digits-default`}>
             <div className={ordersDashboardStyles.orderDashboardNumbers}>
-              {ordersReady.map((item: TOrder) => (
+              {ordersReady.map((item) => (
                 <div key={item._id}>{item.number}</div>
               ))}
             </div>
@@ -27,7 +27,7 @@ const OrdersDashboard: FC = () => {
           <h2 className="text text_type_main-medium pb-6">В работе:</h2>
           <div className='text text_type_digits-default'>
             <div className={ordersDashboardStyles.orderDashboardNumbers}>
-              {ordersInProgress.map((item: TOrder) => (
+              {ordersInProgress.map((item) => (
                 <div key={item._id}>{item.number}</div>
               ))}
             </div>

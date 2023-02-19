@@ -19,20 +19,21 @@ export const socketMiddleware = (wsActions: TWS): Middleware => {
 
       if (socket) {
         socket.onopen = (event) => {
-            dispatch({ type: onOpen, payload: event });
+          dispatch({ type: onOpen, payload: event });
         }
 
         socket.onerror = (event) => {
-            dispatch({ type: onError, payload: event });
+          dispatch({ type: onError, payload: event });
         }
 
         socket.onmessage = (event) => {
-            const { data } = event;
-            dispatch({ type: onMessage, payload: data });
+          const { data } = event;
+          const parsedData = JSON.parse(data);
+          dispatch({ type: onMessage, payload: parsedData });
         }
 
         socket.onclose = (event) => {
-            dispatch({ type: onClose, payload: event });
+          dispatch({ type: onClose, payload: event });
         }
       }
 
@@ -40,5 +41,4 @@ export const socketMiddleware = (wsActions: TWS): Middleware => {
     };
 
   }) as Middleware;
-
 }

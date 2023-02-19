@@ -30,7 +30,7 @@ const AppHeader: FC = () => {
             <Logo />
           </Link>
         </div>
-        <div className={appHeaderStyles.personalBlock}>
+        <div className={appHeaderStyles.personalBlock} data-testid="personalText">
           <div className="pt-4 pr-5 pb-4 pl-5">
             <ProfileIcon type="secondary" />
             <Link to="/profile">

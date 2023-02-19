@@ -4,7 +4,7 @@ import {
   REMOVE_INGREDIENT_FROM_CONSTRUCTOR, CLEAR_CONSTRUCTOR,
   CHANGE_INGREDIENTS_ORDER,
   SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS, SEND_ORDER_ERROR,
-  GET_ORDER_INFO_REQUEST, GET_ORDER_INFO_SUCCESS, GET_ORDER_INFO_ERROR,
+  GET_ORDER_INFO_REQUEST, GET_ORDER_INFO_SUCCESS, GET_ORDER_INFO_ERROR
 } from "../actions/burgerConstructorActions";
 import { TConstructorIngredient, TIngredient, TOrder } from "../../services/types/index";
 import { TBurgerConstructorActions } from "../actions/burgerConstructorActions";
@@ -19,7 +19,7 @@ type TBurgerConstructorState = {
   currentOrder: TOrder | null,
 }
 
-const initialState: TBurgerConstructorState = {
+export const initialState: TBurgerConstructorState = {
   allIngredients: [],
   constructorIngredients: [],
   constructorBun: null,

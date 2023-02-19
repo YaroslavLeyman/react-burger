@@ -3,7 +3,7 @@ import orderInfoStyles from './order-info.module.css';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useAppDispatch, useAppSelector } from '../../services/types';
 import { getOrderInfo } from '../../services/action-creators/burgerConstructorActionCreators';
-import { TParams, TIngredient, TOrderIngredient } from '../../services/types';
+import { TParams, TOrderIngredient } from '../../services/types';
 import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
@@ -20,14 +20,14 @@ export const OrderInfo: FC = () => {
   const { allIngredients } = useAppSelector(store => store.burgerConstructorReducer);
 
   let orderIngredients: TOrderIngredient[] = [];
-  currentOrder?.ingredients.forEach((currentItem) => {
-    let currentIngredient = allIngredients.find((item: TIngredient) => item._id === currentItem);
-    if (currentIngredient) {
-      if (orderIngredients.find(item => item._id === currentIngredient?._id) === undefined) {
-        let q = currentOrder?.ingredients.filter(item => item === currentIngredient?._id).length;
-        orderIngredients.push({...currentIngredient, quantityInOrder: q});
+    currentOrder?.ingredients.forEach((currentItem) => {
+      let currentIngredient = allIngredients.find((item) => item._id === currentItem);
+      if (currentIngredient) {
+        if (orderIngredients.find(item => item._id === currentIngredient?._id) === undefined) {
+          let q = currentOrder?.ingredients.filter(item => item === currentIngredient?._id).length;
+          orderIngredients.push({...currentIngredient, quantityInOrder: q});
+        }
       }
-    }
   });
 
   let orderSum = orderIngredients.reduce((sum, currentItem) => {
@@ -84,8 +84,8 @@ export const OrderInfo: FC = () => {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </div>
-  )
+  </div>
+)
 
 }
 
